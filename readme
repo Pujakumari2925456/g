@@ -1,0 +1,68 @@
+# Tower of Hanoi Game
+
+## Project Overview
+
+The Tower of Hanoi is a classic puzzle game that involves moving a stack of disks from one rod to another while following specific rules. This project implements the Tower of Hanoi game using a web interface so users can play the puzzle interactively in the browser.
+
+## Live Demo
+
+Deployed Web Application:
+https://pujakumari2925456.github.io/g/
+
+## Game Rules
+
+1. There are three rods and multiple disks of different sizes.
+2. Initially, all disks are stacked on the first rod in decreasing size order (largest at the bottom).
+3. The goal is to move all disks to the third rod.
+4. Only one disk can be moved at a time.
+5. A larger disk cannot be placed on top of a smaller disk.
+
+## Features
+
+* Interactive gameplay in the browser
+* Visual representation of rods and disks
+* Move validation based on Tower of Hanoi rules
+* Simple and user-friendly interface
+* Runs directly in a web browser without installation
+
+## Technologies Used
+
+* HTML
+* CSS
+* JavaScript
+* GitHub Pages for deployment
+
+## Project Structure
+
+```
+g/
+│
+├── index.html        # Main game interface
+├── style.css         # Styling for rods and disks
+├── script.js         # Game logic and interactions
+└── README.md         # Project documentation
+```
+
+## How to Run Locally
+
+1. Download or clone the repository.
+2. Open the project folder.
+3. Open the file `index.html` in any web browser.
+
+## How to Play
+
+1. Select a disk from the source rod.
+2. Move the disk to another rod following the rules.
+3. Continue until all disks are moved to the final rod.
+
+## Educational Value
+
+The Tower of Hanoi puzzle is commonly used to teach:
+
+* Recursion
+* Problem solving
+* Algorithm design
+
+## Author
+
+Puja Kumari
