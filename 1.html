@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tower of Hanoi - Classroom Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #87CEEB;
+    --grass: #5DBB63;
+    --wall: #F5E6C8;
+    --chalkboard: #2D6A4F;
+    --accent: #FF6B6B;
+    --yellow: #FFD93D;
+    --purple: #A855F7;
+    --blue: #3B82F6;
+    --orange: #F97316;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: #FFF8EC;
+    overflow-x: hidden;
+  }
+
+  /* ========== LANDING PAGE ========== */
+  #landing {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(180deg, #87CEEB 0%, #87CEEB 60%, #5DBB63 60%, #5DBB63 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cloud {
+    position: absolute;
+    background: white;
+    border-radius: 50px;
+    opacity: 0.9;
+    animation: float-cloud linear infinite;
+  }
+  .cloud::before, .cloud::after {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+  }
+  .cloud-1 { width: 120px; height: 40px; top: 8%; animation-duration: 20s; animation-delay: 0s; left: -150px; }
+  .cloud-1::before { width: 60px; height: 60px; top: -30px; left: 15px; }
+  .cloud-1::after { width: 40px; height: 40px; top: -20px; left: 55px; }
+  .cloud-2 { width: 90px; height: 30px; top: 18%; animation-duration: 28s; animation-delay: -10s; left: -120px; }
+  .cloud-2::before { width: 45px; height: 45px; top: -22px; left: 10px; }
+  .cloud-2::after { width: 30px; height: 30px; top: -15px; left: 40px; }
+  .cloud-3 { width: 100px; height: 35px; top: 5%; animation-duration: 24s; animation-delay: -5s; left: -130px; }
+  .cloud-3::before { width: 50px; height: 50px; top: -25px; left: 12px; }
+  .cloud-3::after { width: 35px; height: 35px; top: -18px; left: 48px; }
+
+  @keyframes float-cloud {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(100vw + 200px)); }
+  }
+
+  .school-building {
+    position: absolute;
+    bottom: 38%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+  }
+
+  .building-body {
+    background: #F5E6C8;
+    border: 4px solid #8B6914;
+    border-radius: 8px 8px 0 0;
+    height: 220px;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .building-roof {
+    background: #CC3333;
+    clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+    height: 80px;
+    width: 100%;
+  }
+
+  .school-sign {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2D6A4F;
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    padding: 5px 15px;
+    border-radius: 5px;
+    white-space: nowrap;
+    border: 2px solid #1a4a35;
+  }
+
+  .window {
+    background: linear-gradient(135deg, #AEE4F5 0%, #7EC8E3 100%);
+    border: 3px solid #8B6914;
+    border-radius: 4px;
+    width: 80px;
+    height: 90px;
+    position: relative;
+    margin-top: 60px;
+  }
+  .window::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0; right: 0;
+    height: 2px;
+    background: #8B6914;
+  }
+  .window::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: #8B6914;
+  }
+
+  .door {
+    background: #8B4513;
+    border: 3px solid #5C2D0A;
+    border-radius: 40px 40px 0 0;
+    width: 55px;
+    height: 85px;
+    margin-top: 75px;
+    position: relative;
+  }
+  .door::after {
+    content: '';
+    position: absolute;
+    right: 8px;
+    top: 40%;
+    width: 8px;
+    height: 8px;
+    background: #FFD700;
+    border-radius: 50%;
+  }
+
+  .main-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 3.5rem;
+    color: white;
+    text-shadow: 4px 4px 0 #8B4513, -1px -1px 0 #8B4513;
+    margin-top: 30px;
+    text-align: center;
+    z-index: 10;
+    animation: bounce-title 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce-title {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    margin-bottom: 20px;
+    font-weight: 700;
+    z-index: 10;
+  }
+
+  .students-outside {
+    position: absolute;
+    bottom: 36%;
+    display: flex;
+    gap: 60px;
+    z-index: 20;
+  }
+
+  .student-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    animation: student-idle 2s ease-in-out infinite;
+    transition: transform 0.2s;
+    position: relative;
+  }
+  .student-wrapper:nth-child(2) { animation-delay: 0.4s; }
+  .student-wrapper:nth-child(3) { animation-delay: 0.8s; }
+
+  .student-wrapper:hover {
+    transform: scale(1.15) translateY(-10px);
+    animation: none;
+  }
+
+  @keyframes student-idle {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-5px) rotate(-2deg); }
+    75% { transform: translateY(-3px) rotate(2deg); }
+  }
+
+  .student-label {
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.9rem;
+    background: white;
+    border-radius: 20px;
+    padding: 3px 10px;
+    margin-top: 6px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  }
+
+  .speech-bubble {
+    position: absolute;
+    top: -55px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border-radius: 12px;
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+    border: 2px solid #333;
+    animation: bubble-pop 3s ease-in-out infinite;
+    opacity: 0;
+  }
+  .speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: #333;
+  }
+
+  .student-wrapper:nth-child(1) .speech-bubble { animation-delay: 0s; }
+  .student-wrapper:nth-child(2) .speech-bubble { animation-delay: 1s; }
+  .student-wrapper:nth-child(3) .speech-bubble { animation-delay: 2s; }
+
+  @keyframes bubble-pop {
+    0%, 20% { opacity: 0; transform: translateX(-50%) scale(0.5); }
+    30%, 70% { opacity: 1; transform: translateX(-50%) scale(1); }
+    80%, 100% { opacity: 0; transform: translateX(-50%) scale(0.5); }
+  }
+
+  .play-section {
+    z-index: 30;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .play-hint {
+    font-family: 'Fredoka One', cursive;
+    color: white;
+    font-size: 1.2rem;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+  .play-btn {
+    background: linear-gradient(135deg, #FFD93D, #FF6B6B);
+    border: none;
+    border-radius: 50px;
+    padding: 16px 50px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.8rem;
+    color: white;
+    cursor: pointer;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 8px 0 #C0392B, 0 12px 20px rgba(0,0,0,0.3);
+    transition: all 0.15s;
+    letter-spacing: 1px;
+  }
+  .play-btn:hover { transform: translateY(-4px); box-shadow: 0 12px 0 #C0392B, 0 16px 25px rgba(0,0,0,0.3); }
+  .play-btn:active { transform: translateY(4px); box-shadow: 0 4px 0 #C0392B; }
+
+  .ground {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    height: 38%;
+    background: #5DBB63;
+  }
+  .ground-top {
+    position: absolute;
+    bottom: 37.5%;
+    left: 0; right: 0;
+    height: 15px;
+    background: #3D9E43;
+    border-radius: 50% 50% 0 0;
+  }
+
+  /* ========== GAME PAGE ========== */
+  #game-page {
+    display: none;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .game-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 20px;
+  }
+
+  .back-btn {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    transition: all 0.2s;
+  }
+  .back-btn:hover { background: rgba(255,255,255,0.2); }
+
+  .game-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2.5rem;
+    background: linear-gradient(90deg, #FFD93D, #FF6B6B, #A855F7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stats-bar {
+    display: flex;
+    gap: 20px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 12px 25px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .stat-value {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.6rem;
+    color: #FFD93D;
+  }
+
+  .stat-divider {
+    width: 1px;
+    background: rgba(255,255,255,0.2);
+    align-self: stretch;
+    margin: 0 5px;
+  }
+
+  .controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .ctrl-btn {
+    padding: 8px 18px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+  }
+
+  .btn-reset { background: #FF6B6B; color: white; }
+  .btn-solve { background: #A855F7; color: white; }
+  .btn-reset:hover { background: #FF4444; transform: translateY(-2px); }
+  .btn-solve:hover { background: #9333EA; transform: translateY(-2px); }
+
+  .disk-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-weight: 700;
+  }
+
+  .disk-selector select {
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    outline: none;
+  }
+  .disk-selector select option { background: #1a1a2e; }
+
+  .game-area {
+    width: 100%;
+    max-width: 900px;
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 25px;
+    padding: 30px 20px 20px;
+    position: relative;
+    backdrop-filter: blur(5px);
+  }
+
+  .pegs-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 280px;
+    padding-bottom: 10px;
+    position: relative;
+  }
+
+  .base-platform {
+    position: absolute;
+    bottom: 0;
+    left: 5%;
+    right: 5%;
+    height: 18px;
+    background: linear-gradient(180deg, #8B6914, #5C4A1A);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+  }
+
+  .peg-tower {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-radius: 15px;
+    padding-bottom: 18px;
+  }
+
+  .peg-tower:hover { background: rgba(255,255,255,0.05); }
+
+  .peg-tower.selected {
+    background: rgba(255,215,0,0.1);
+    border: 2px dashed rgba(255,215,0,0.5);
+    border-radius: 15px;
+  }
+
+  .peg-label {
+    position: absolute;
+    bottom: -28px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .peg-rod {
+    width: 12px;
+    background: linear-gradient(90deg, #9E7B4A, #C8A96E, #9E7B4A);
+    border-radius: 6px 6px 0 0;
+    position: absolute;
+    bottom: 18px;
+    height: 200px;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.3);
+  }
+
+  .disks-stack {
+    position: absolute;
+    bottom: 18px;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    width: 100%;
+  }
+
+  .disk {
+    height: 26px;
+    border-radius: 13px;
+    position: relative;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.9);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3), inset 0 2px 0 rgba(255,255,255,0.3);
+    margin-bottom: 2px;
+  }
+
+  .disk.top-disk {
+    animation: glow-disk 1s ease-in-out infinite alternate;
+  }
+  @keyframes glow-disk {
+    from { box-shadow: 0 4px 10px rgba(0,0,0,0.3), 0 0 10px rgba(255,215,0,0.3); }
+    to { box-shadow: 0 4px 15px rgba(0,0,0,0.4), 0 0 20px rgba(255,215,0,0.7); }
+  }
+
+  .disk-color-0 { background: linear-gradient(135deg, #FF6B6B, #EE3355); }
+  .disk-color-1 { background: linear-gradient(135deg, #F97316, #EA580C); }
+  .disk-color-2 { background: linear-gradient(135deg, #FFD93D, #F59E0B); }
+  .disk-color-3 { background: linear-gradient(135deg, #5DBB63, #16A34A); }
+  .disk-color-4 { background: linear-gradient(135deg, #3B82F6, #2563EB); }
+  .disk-color-5 { background: linear-gradient(135deg, #A855F7, #7C3AED); }
+  .disk-color-6 { background: linear-gradient(135deg, #EC4899, #BE185D); }
+
+  .peg-tower.selected .disk.top-disk {
+    transform: translateY(-30px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 30px rgba(255,215,0,0.8);
+  }
+
+  .instruction-text {
+    text-align: center;
+    color: rgba(255,255,255,0.6);
+    font-size: 0.9rem;
+    margin-top: 40px;
+    padding-top: 10px;
+  }
+
+  .instruction-text span {
+    color: #FFD93D;
+    font-weight: 700;
+  }
+
+  .win-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    backdrop-filter: blur(8px);
+  }
+
+  .win-card {
+    background: linear-gradient(135deg, #1a1a2e, #0f3460);
+    border: 3px solid #FFD93D;
+    border-radius: 30px;
+    padding: 50px 60px;
+    text-align: center;
+    animation: pop-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  @keyframes pop-in {
+    from { transform: scale(0) rotate(-10deg); opacity: 0; }
+    to { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  .win-emoji { font-size: 5rem; animation: spin 1s ease; }
+  @keyframes spin { from { transform: rotate(0deg) scale(0); } to { transform: rotate(360deg) scale(1); } }
+
+  .win-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 3rem;
+    background: linear-gradient(90deg, #FFD93D, #FF6B6B);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 15px 0;
+  }
+
+  .win-stats {
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    opacity: 0.85;
+  }
+
+  .win-btn {
+    background: linear-gradient(135deg, #FFD93D, #FF6B6B);
+    border: none;
+    padding: 14px 40px;
+    border-radius: 50px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.4rem;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #C0392B;
+    transition: all 0.15s;
+  }
+  .win-btn:hover { transform: translateY(-3px); }
+  .win-btn:active { transform: translateY(3px); box-shadow: 0 3px 0 #C0392B; }
+
+  .confetti-piece {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    animation: confetti-fall 3s ease-in forwards;
+    z-index: 999;
+  }
+  @keyframes confetti-fall {
+    0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  .solving-badge {
+    display: none;
+    background: #A855F7;
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    animation: pulse 0.8s infinite;
+  }
+
+  @media (max-width: 600px) {
+    .main-title { font-size: 2.2rem; }
+    .school-building { width: 340px; }
+    .students-outside { gap: 20px; }
+    .game-title { font-size: 1.8rem; }
+    .pegs-container { height: 220px; }
+    .peg-rod { height: 155px; }
+    .disk { height: 22px; }
+    .win-card { padding: 30px 30px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LANDING PAGE -->
+<div id="landing">
+  <div class="cloud cloud-1"></div>
+  <div class="cloud cloud-2"></div>
+  <div class="cloud cloud-3"></div>
+
+  <h1 class="main-title">🏰 Tower of Hanoi</h1>
+  <p class="subtitle">🎒 The Classroom Puzzle Challenge!</p>
+
+  <div class="school-building">
+    <div class="building-roof"></div>
+    <div class="building-body">
+      <div class="school-sign">🏫 PUZZLE ACADEMY</div>
+      <div class="window"></div>
+      <div class="door"></div>
+      <div class="window"></div>
+    </div>
+  </div>
+
+  <div class="students-outside">
+
+    <!-- Student 1: Max -->
+    <div class="student-wrapper" onclick="goToGame()">
+      <div class="speech-bubble">😤 Let me play!</div>
+      <svg width="75" height="130" viewBox="0 0 75 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="37.5" cy="126" rx="22" ry="5" fill="rgba(0,0,0,0.15)"/>
+        <rect x="23" y="95" width="12" height="32" rx="6" fill="#1C1C8E"/>
+        <rect x="40" y="95" width="12" height="32" rx="6" fill="#1C1C8E"/>
+        <ellipse cx="29" cy="127" rx="9" ry="5" fill="#222"/>
+        <ellipse cx="46" cy="127" rx="9" ry="5" fill="#222"/>
+        <rect x="17" y="56" width="41" height="43" rx="10" fill="#FF4444"/>
+        <path d="M17 65 Q4 72 8 85" stroke="#FFDAB0" stroke-width="10" stroke-linecap="round" fill="none"/>
+        <path d="M58 65 Q71 72 67 85" stroke="#FFDAB0" stroke-width="10" stroke-linecap="round" fill="none"/>
+        <circle cx="8" cy="85" r="7" fill="#FFDAB0"/>
+        <circle cx="67" cy="85" r="7" fill="#FFDAB0"/>
+        <rect x="31" y="46" width="13" height="14" rx="5" fill="#FFDAB0"/>
+        <ellipse cx="37.5" cy="35" rx="22" ry="24" fill="#FFDAB0"/>
+        <path d="M15 28 Q16 10 37.5 11 Q59 10 60 28" fill="#4A2800"/>
+        <circle cx="28" cy="32" r="5" fill="white"/>
+        <circle cx="47" cy="32" r="5" fill="white"/>
+        <circle cx="29" cy="33" r="3" fill="#333"/>
+        <circle cx="48" cy="33" r="3" fill="#333"/>
+        <path d="M24 26 Q28 23 33 25" stroke="#4A2800" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <path d="M42 25 Q47 23 51 26" stroke="#4A2800" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <path d="M30 43 Q37.5 39 45 43" stroke="#C07050" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <path d="M28 56 L37.5 66 L47 56" stroke="white" stroke-width="2" fill="none"/>
+        <path d="M20 15 L37.5 -8 L55 15" fill="#FFD93D" stroke="#F59E0B" stroke-width="2"/>
+        <text x="37.5" y="8" text-anchor="middle" font-size="8" fill="#F59E0B" font-weight="bold">D</text>
+        <path d="M26 40 Q25 44 26 47" stroke="#88C8FF" stroke-width="2" stroke-linecap="round" fill="none"/>
+      </svg>
+      <div class="student-label" style="color:#FF4444">😢 Max</div>
+    </div>
+
+    <!-- Student 2: Amy -->
+    <div class="student-wrapper" onclick="goToGame()">
+      <div class="speech-bubble">📚 I solved it!</div>
+      <svg width="75" height="130" viewBox="0 0 75 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="37.5" cy="126" rx="22" ry="5" fill="rgba(0,0,0,0.15)"/>
+        <path d="M20 80 Q17 105 15 120 Q37.5 125 60 120 Q58 105 55 80 Z" fill="#3B82F6"/>
+        <rect x="24" y="108" width="10" height="19" rx="5" fill="#FFDAB0"/>
+        <rect x="41" y="108" width="10" height="19" rx="5" fill="#FFDAB0"/>
+        <ellipse cx="29" cy="127" rx="9" ry="5" fill="#FF69B4"/>
+        <ellipse cx="46" cy="127" rx="9" ry="5" fill="#FF69B4"/>
+        <rect x="20" y="53" width="35" height="30" rx="8" fill="#3B82F6"/>
+        <path d="M20 60 Q7 68 10 82" stroke="#FFDAB0" stroke-width="9" stroke-linecap="round" fill="none"/>
+        <path d="M55 60 Q68 68 65 82" stroke="#FFDAB0" stroke-width="9" stroke-linecap="round" fill="none"/>
+        <circle cx="10" cy="82" r="7" fill="#FFDAB0"/>
+        <circle cx="65" cy="82" r="7" fill="#FFDAB0"/>
+        <rect x="31" y="44" width="13" height="13" rx="5" fill="#FFDAB0"/>
+        <ellipse cx="37.5" cy="32" rx="21" ry="23" fill="#FFDAB0"/>
+        <path d="M16 26 Q17 8 37.5 9 Q58 8 59 26" fill="#8B4513"/>
+        <ellipse cx="13" cy="28" rx="8" ry="10" fill="#8B4513"/>
+        <ellipse cx="62" cy="28" rx="8" ry="10" fill="#8B4513"/>
+        <path d="M8 23 Q13 26 8 29 Q13 26 18 29 Q13 26 18 23 Q13 26 8 23" fill="#FF69B4"/>
+        <path d="M57 23 Q62 26 57 29 Q62 26 67 29 Q62 26 67 23 Q62 26 57 23" fill="#FF69B4"/>
+        <circle cx="28" cy="31" r="6" fill="white"/>
+        <circle cx="47" cy="31" r="6" fill="white"/>
+        <circle cx="29" cy="32" r="3.5" fill="#553311"/>
+        <circle cx="48" cy="32" r="3.5" fill="#553311"/>
+        <circle cx="30.5" cy="30" r="1.5" fill="white"/>
+        <circle cx="49.5" cy="30" r="1.5" fill="white"/>
+        <path d="M23 24 Q28 22 33 24" stroke="#553311" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M42 24 Q47 22 52 24" stroke="#553311" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M30 42 Q37.5 38 45 42" stroke="#C07050" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <path d="M20 12 L37.5 -8 L55 12" fill="#FF6B6B" stroke="#CC3333" stroke-width="2"/>
+        <text x="37.5" y="5" text-anchor="middle" font-size="8" fill="#CC3333" font-weight="bold">D</text>
+      </svg>
+      <div class="student-label" style="color:#3B82F6">😤 Amy</div>
+    </div>
+
+    <!-- Student 3: Leo -->
+    <div class="student-wrapper" onclick="goToGame()">
+      <div class="speech-bubble">🎮 Click me!</div>
+      <svg width="75" height="130" viewBox="0 0 75 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="37.5" cy="126" rx="22" ry="5" fill="rgba(0,0,0,0.15)"/>
+        <rect x="22" y="95" width="12" height="32" rx="6" fill="#5C3A1E"/>
+        <rect x="41" y="95" width="12" height="32" rx="6" fill="#5C3A1E"/>
+        <ellipse cx="28" cy="127" rx="9" ry="5" fill="#1C1C1C"/>
+        <ellipse cx="47" cy="127" rx="9" ry="5" fill="#1C1C1C"/>
+        <rect x="17" y="56" width="41" height="43" rx="10" fill="#5DBB63"/>
+        <path d="M17 63 Q6 74 12 84" stroke="#C8A078" stroke-width="10" stroke-linecap="round" fill="none"/>
+        <path d="M58 63 Q69 74 63 84" stroke="#C8A078" stroke-width="10" stroke-linecap="round" fill="none"/>
+        <circle cx="12" cy="84" r="7" fill="#C8A078"/>
+        <circle cx="63" cy="84" r="7" fill="#C8A078"/>
+        <rect x="31" y="46" width="13" height="14" rx="5" fill="#C8A078"/>
+        <ellipse cx="37.5" cy="34" rx="22" ry="24" fill="#C8A078"/>
+        <path d="M15 25 Q18 7 37.5 8 Q57 7 60 25" fill="#222"/>
+        <path d="M16 25 Q14 18 19 15" stroke="#222" stroke-width="4" stroke-linecap="round" fill="none"/>
+        <path d="M59 25 Q61 18 56 15" stroke="#222" stroke-width="4" stroke-linecap="round" fill="none"/>
+        <path d="M25 10 Q28 5 35 7" stroke="#222" stroke-width="5" stroke-linecap="round" fill="none"/>
+        <circle cx="28" cy="33" r="5" fill="white"/>
+        <circle cx="47" cy="33" r="5" fill="white"/>
+        <circle cx="29" cy="34" r="3" fill="#333"/>
+        <circle cx="48" cy="34" r="3" fill="#333"/>
+        <path d="M43 33 Q47 30 51 33" stroke="#333" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M23 27 Q28 25 32 27" stroke="#222" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <path d="M43 27 Q48 25 52 27" stroke="#222" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <path d="M30 45 Q38 50 46 44" stroke="#9A7050" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <circle cx="24" cy="39" r="2" fill="#B08060" opacity="0.5"/>
+        <circle cx="20" cy="37" r="1.5" fill="#B08060" opacity="0.5"/>
+        <circle cx="51" cy="39" r="2" fill="#B08060" opacity="0.5"/>
+        <circle cx="55" cy="37" r="1.5" fill="#B08060" opacity="0.5"/>
+        <path d="M19 14 L37.5 -8 L56 14" fill="#A855F7" stroke="#7C3AED" stroke-width="2"/>
+        <text x="37.5" y="7" text-anchor="middle" font-size="8" fill="#7C3AED" font-weight="bold">D</text>
+      </svg>
+      <div class="student-label" style="color:#5DBB63">😏 Leo</div>
+    </div>
+  </div>
+
+  <div class="ground"></div>
+  <div class="ground-top"></div>
+
+  <div class="play-section" style="position:absolute; bottom: 18%; z-index:30; width:100%; display:flex; flex-direction:column; align-items:center; gap:12px;">
+    <p class="play-hint">👆 Click any student or button to play!</p>
+    <button class="play-btn" onclick="goToGame()">▶ PLAY NOW</button>
+  </div>
+</div>
+
+<!-- GAME PAGE -->
+<div id="game-page">
+  <div class="game-header">
+    <button class="back-btn" onclick="goToLanding()">← Back</button>
+    <div class="game-title">🏰 Tower of Hanoi</div>
+    <div class="solving-badge" id="solvingBadge">🤖 Auto-Solving...</div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span class="stat-label">Moves</span>
+      <span class="stat-value" id="moveCount">0</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-label">Min Moves</span>
+      <span class="stat-value" id="minMoves">7</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-label">Time</span>
+      <span class="stat-value" id="timer">0:00</span>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="disk-selector">
+      <span>Disks:</span>
+      <select id="diskCount" onchange="resetGame()">
+        <option value="3" selected>3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+      </select>
+    </div>
+    <button class="ctrl-btn btn-reset" onclick="resetGame()">🔄 Reset</button>
+    <button class="ctrl-btn btn-solve" onclick="autoSolve()">🤖 Auto Solve</button>
+  </div>
+
+  <div class="game-area">
+    <div class="pegs-container" id="pegsContainer">
+      <div class="peg-tower" id="peg-0" onclick="handlePegClick(0)">
+        <div class="peg-rod"></div>
+        <div class="disks-stack" id="stack-0"></div>
+        <div class="peg-label">A</div>
+      </div>
+      <div class="peg-tower" id="peg-1" onclick="handlePegClick(1)">
+        <div class="peg-rod"></div>
+        <div class="disks-stack" id="stack-1"></div>
+        <div class="peg-label">B</div>
+      </div>
+      <div class="peg-tower" id="peg-2" onclick="handlePegClick(2)">
+        <div class="peg-rod"></div>
+        <div class="disks-stack" id="stack-2"></div>
+        <div class="peg-label">C</div>
+      </div>
+      <div class="base-platform"></div>
+    </div>
+    <div class="instruction-text" id="instructionText">
+      <span>Click a peg</span> to pick up its top disk, then <span>click another peg</span> to move it there
+    </div>
+  </div>
+</div>
+
+<!-- Win Overlay -->
+<div class="win-overlay" id="winOverlay">
+  <div class="win-card">
+    <div class="win-emoji">🏆</div>
+    <div class="win-title">You Won!</div>
+    <div class="win-stats" id="winStats"></div>
+    <button class="win-btn" onclick="playAgain()">🎮 Play Again</button>
+  </div>
+</div>
+
+<script>
+// NAVIGATION
+function goToGame() {
+  document.getElementById('landing').style.display = 'none';
+  const gp = document.getElementById('game-page');
+  gp.style.display = 'flex';
+  initGame();
+}
+function goToLanding() {
+  clearSolveInterval();
+  clearInterval(timerInterval);
+  document.getElementById('game-page').style.display = 'none';
+  document.getElementById('landing').style.display = 'flex';
+  document.getElementById('winOverlay').style.display = 'none';
+}
+function playAgain() {
+  document.getElementById('winOverlay').style.display = 'none';
+  clearConfetti();
+  resetGame();
+}
+
+// GAME STATE
+let pegs = [[], [], []];
+let selectedPeg = null;
+let moves = 0;
+let numDisks = 3;
+let timerInterval = null;
+let seconds = 0;
+let solveInterval = null;
+let solving = false;
+
+function initGame() {
+  numDisks = parseInt(document.getElementById('diskCount').value);
+  pegs = [[], [], []];
+  for (let i = numDisks; i >= 1; i--) pegs[0].push(i);
+  selectedPeg = null;
+  moves = 0;
+  seconds = 0;
+  solving = false;
+  document.getElementById('solvingBadge').style.display = 'none';
+  updateMoveCount();
+  document.getElementById('minMoves').textContent = Math.pow(2, numDisks) - 1;
+  clearInterval(timerInterval);
+  timerInterval = setInterval(updateTimer, 1000);
+  render();
+}
+
+function resetGame() {
+  clearSolveInterval();
+  clearInterval(timerInterval);
+  solving = false;
+  document.getElementById('solvingBadge').style.display = 'none';
+  initGame();
+}
+
+// RENDERING
+function render() {
+  for (let p = 0; p < 3; p++) {
+    const stackEl = document.getElementById('stack-' + p);
+    const pegEl = document.getElementById('peg-' + p);
+    stackEl.innerHTML = '';
+    pegEl.classList.toggle('selected', selectedPeg === p);
+
+    pegs[p].forEach((diskSize, idx) => {
+      const isTop = idx === pegs[p].length - 1;
+      const disk = document.createElement('div');
+      disk.className = 'disk disk-color-' + ((diskSize - 1) % 7) + (isTop && selectedPeg === p ? ' top-disk' : '');
+      const maxW = 85, minW = 22;
+      const w = minW + (maxW - minW) * (diskSize / numDisks);
+      disk.style.width = w + '%';
+      disk.textContent = diskSize;
+      stackEl.appendChild(disk);
+    });
+  }
+}
+
+// GAME LOGIC
+function handlePegClick(pegIdx) {
+  if (solving) return;
+
+  if (selectedPeg === null) {
+    if (pegs[pegIdx].length === 0) {
+      showInstruction('⚠️ That peg is empty! Choose a peg with disks.');
+      return;
+    }
+    selectedPeg = pegIdx;
+    showInstruction('Disk <span>' + pegs[pegIdx][pegs[pegIdx].length - 1] + '</span> picked from peg <span>' + ['A','B','C'][pegIdx] + '</span>. Choose destination.');
+  } else {
+    if (pegIdx === selectedPeg) {
+      selectedPeg = null;
+      showInstruction('<span>Click a peg</span> to pick up its top disk, then <span>click another peg</span> to move it there.');
+      render();
+      return;
+    }
+    const fromTop = pegs[selectedPeg][pegs[selectedPeg].length - 1];
+    const toTop = pegs[pegIdx].length > 0 ? pegs[pegIdx][pegs[pegIdx].length - 1] : Infinity;
+    if (fromTop > toTop) {
+      showInstruction('❌ Cannot place larger disk on smaller! Try another peg.');
+      selectedPeg = null;
+      render();
+      return;
+    }
+    pegs[pegIdx].push(pegs[selectedPeg].pop());
+    moves++;
+    updateMoveCount();
+    selectedPeg = null;
+    render();
+    checkWin();
+    return;
+  }
+  render();
+}
+
+function showInstruction(msg) {
+  document.getElementById('instructionText').innerHTML = msg;
+}
+
+function updateMoveCount() {
+  document.getElementById('moveCount').textContent = moves;
+}
+
+function updateTimer() {
+  seconds++;
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  document.getElementById('timer').textContent = m + ':' + s.toString().padStart(2, '0');
+}
+
+function checkWin() {
+  if (pegs[2].length === numDisks) {
+    clearInterval(timerInterval);
+    if (!solving) {
+      setTimeout(showWin, 300);
+    }
+    return true;
+  }
+  return false;
+}
+
+function showWin() {
+  const minM = Math.pow(2, numDisks) - 1;
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  document.getElementById('winStats').innerHTML =
+    'Moves: <strong>' + moves + '</strong> (minimum: ' + minM + ')<br>Time: <strong>' + m + ':' + s.toString().padStart(2,'0') + '</strong>';
+  document.getElementById('winOverlay').style.display = 'flex';
+  spawnConfetti();
+}
+
+// AUTO SOLVE
+let solveQueue = [];
+
+function clearSolveInterval() {
+  if (solveInterval) clearInterval(solveInterval);
+  solveInterval = null;
+  solveQueue = [];
+}
+
+function autoSolve() {
+  if (solving) return;
+  resetGame();
+  solving = true;
+  document.getElementById('solvingBadge').style.display = 'block';
+  solveQueue = [];
+  hanoi(numDisks, 0, 2, 1, solveQueue);
+  let i = 0;
+  solveInterval = setInterval(function() {
+    if (i >= solveQueue.length) {
+      clearSolveInterval();
+      solving = false;
+      document.getElementById('solvingBadge').style.display = 'none';
+      if (checkWin()) setTimeout(showWin, 400);
+      return;
+    }
+    const move = solveQueue[i++];
+    pegs[move[1]].push(pegs[move[0]].pop());
+    moves++;
+    updateMoveCount();
+    render();
+  }, Math.max(200, 1200 / numDisks));
+}
+
+function hanoi(n, from, to, aux, moveList) {
+  if (n === 0) return;
+  hanoi(n - 1, from, aux, to, moveList);
+  moveList.push([from, to]);
+  hanoi(n - 1, aux, to, from, moveList);
+}
+
+// CONFETTI
+function spawnConfetti() {
+  const colors = ['#FF6B6B','#FFD93D','#5DBB63','#3B82F6','#A855F7','#F97316','#EC4899'];
+  for (let i = 0; i < 60; i++) {
+    const c = document.createElement('div');
+    c.className = 'confetti-piece';
+    c.style.left = (Math.random() * 100) + 'vw';
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+    c.style.animationDelay = (Math.random() * 2) + 's';
+    c.style.animationDuration = (2 + Math.random() * 2) + 's';
+    document.body.appendChild(c);
+  }
+}
+
+function clearConfetti() {
+  document.querySelectorAll('.confetti-piece').forEach(function(e) { e.remove(); });
+}
+</script>
+</body>
+</html>
